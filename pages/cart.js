@@ -38,14 +38,15 @@ const ProductImageBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  img {
-    max-width: 80px;
-    max-height: 80px;
-  }
   @media screen and (min-width: 768px) {
     padding: 10px;
 }
 `;
+
+const Image = styled.img`
+  max-width: 80px;
+  max-height: 80px; 
+`
 
 const QuantityLabel = styled.span`
   padding: 0 15px;
@@ -153,7 +154,7 @@ function CartPage() {
                     <tr>
                       <ProductInfoCell>
                         <ProductImageBox>
-                          <img src={product.images[0]} alt="" />
+                          <Image src={product.images[0]} alt="Imagen de Producto" />
                         </ProductImageBox>
                         {product.title}
                       </ProductInfoCell>

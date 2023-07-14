@@ -56,7 +56,7 @@ function ProductBox({_id, title, description, price, images}) {
     <ProductWrapper>
         <WhiteBox href={url}>
             <div>
-                <Image src={images?.[0]} />
+                <Image src={images?.[0]} alt="Imagen de Producto"/>
             </div>
         </WhiteBox>
         <ProductInfoBox>

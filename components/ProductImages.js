@@ -51,7 +51,7 @@ function ProductImages({ images }) {
             active={image === activeImage}
             onClick={() => setActiveImage(image)}
           >
-            <Image src={image} alt="" />
+            <Image src={image} alt="Imagen de Producto" />
           </ImageButton>
         ))}
       </ImageButtons>
