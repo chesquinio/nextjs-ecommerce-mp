@@ -10,7 +10,7 @@ export function CartContextProvider({ children }) {
     if (cartProducts.length > 0) {
       localStorage.setItem("cart", JSON.stringify(cartProducts));
     }
-  }, [cartProducts]);
+  }, [cartProducts, ls]);
 
   useEffect(() => {
     if (ls && ls.getItem('cart')) {

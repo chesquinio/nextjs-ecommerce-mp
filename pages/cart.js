@@ -91,7 +91,7 @@ function CartPage() {
       setIsSuccess(true);
       clearCart();
     }
-  }, [])
+  }, [clearCart])
 
   function moreOfThisProduct(id) {
     addProduct(id);
@@ -151,7 +151,7 @@ function CartPage() {
                 </thead>
                 <tbody>
                   {products.map((product) => (
-                    <tr>
+                    <tr key={product._id}>
                       <ProductInfoCell>
                         <ProductImageBox>
                           <Image src={product.images[0]} alt="Imagen de Producto" />
