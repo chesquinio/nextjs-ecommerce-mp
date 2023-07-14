@@ -18,11 +18,12 @@ const WhiteBox = styled(Link)`
     align-items:center;
     justify-content:center;
     border-radius:10px;
-    img {
-        max-width: 100%;
-        max-height: 80px;
-    }
 `;
+
+const Image = styled.img`
+    max-width: 100%;
+    max-height: 80px;
+`
 
 const Title = styled(Link)`
     font-weigth: normal;
@@ -55,7 +56,7 @@ function ProductBox({_id, title, description, price, images}) {
     <ProductWrapper>
         <WhiteBox href={url}>
             <div>
-                <img src={images?.[0]} />
+                <Image src={images?.[0]} />
             </div>
         </WhiteBox>
         <ProductInfoBox>

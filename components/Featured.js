@@ -30,12 +30,6 @@ const ColumnsWrapper = styled.div`
     display:grid;
     grid-template-columns:1fr;
     gap: 40px;
-    img {
-        max-width: 100%;
-        max-height: 200px;
-        display: block;
-        margin: 0 auto;
-    }
     div:nth-child(1) {
         order:2;
     }
@@ -46,6 +40,13 @@ const ColumnsWrapper = styled.div`
         }
     }
 `;
+
+const Image = styled.img`
+    max-width: 100%;
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
+`
 
 const Column = styled.div`
     display:flex;
@@ -82,7 +83,7 @@ function Featured({product}) {
                     </div>
                 </Column>
                 <Column>
-                    <img src="https://nextjs-ecommerce-mp.s3.amazonaws.com/1689358146998.png" alt="" />
+                    <Image src="https://nextjs-ecommerce-mp.s3.amazonaws.com/1689358146998.png" alt="" />
                 </Column>
             </ColumnsWrapper>
         </Center>
