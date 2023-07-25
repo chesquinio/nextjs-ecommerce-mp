@@ -8,6 +8,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useRouter } from 'next/router';
+import { isAuthenticated } from "@/lib/auth";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -62,6 +63,15 @@ const CityHolder = styled.div`
   gap: 5px;
 `;
 
+const Mid = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+`
+
 function CartPage() {
   const { cartProducts, addProduct, removeProduct, clearCart } = useContext(CartContext);
   const [products, setProducts] = useState([]);
@@ -72,6 +82,32 @@ function CartPage() {
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isLogged, setIsLogged] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsLogged(isAuthenticated());
+  }, []);
+
+  useEffect(() => {
+    if (isLogged) {
+      
+      const authToken = localStorage.getItem("token");
+
+      axios.get("/api/account", {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          })
+        .then((response) => {
+          const { email } = response.data;
+          setEmail(email)
+        })
+        .catch((error) => {
+          console.error("Error al obtener los datos del usuario:", error);
+        });
+    }
+  }, [isLogged]);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -89,9 +125,14 @@ function CartPage() {
     }
     if (window?.location.href.includes('success')) {
       setIsSuccess(true);
+      localStorage.removeItem('cart');
       clearCart();
     }
-  }, [clearCart])
+  }, [])
+
+  function goToLogin() {
+    router.push('/login');
+  }
 
   function moreOfThisProduct(id) {
     addProduct(id);
@@ -102,10 +143,15 @@ function CartPage() {
   }
 
   async function goToPayment() {
+    const authToken = localStorage.getItem('token');
     const response = await axios.post('/api/checkout', {
       name,email,city,postalCode,streetAddress,country,
       cartProducts,
-    });
+    },  {
+      headers: {
+        Authorization: 'Bearer ' + authToken,
+      },
+    })
     const data = await response.data
     window.location.href = data.init_point
   }
@@ -188,23 +234,23 @@ function CartPage() {
               </Table>
             )}
           </Box>
-          {!!cartProducts?.length && (
+          {!!cartProducts?.length && isLogged && (
             <Box>
               <h2>Informacion del pedido</h2>
                 <Input
-                  type="text"
-                  placeholder="Nombre"
-                  value={name}
-                  name="name"
-                  onChange={(ev) => setName(ev.target.value)}
-                />
+                    type="text"
+                    placeholder="Nombre Completo"
+                    value={name}
+                    name="name"
+                    onChange={(ev) => setName(ev.target.value)}
+                  />
                 <Input
-                  type="text"
-                  placeholder="Email"
-                  value={email}
-                  name="email"
-                  onChange={(ev) => setEmail(ev.target.value)}
-                />
+                    type="text"
+                    placeholder="Calle"
+                    value={streetAddress}
+                    name="streetAddress"
+                    onChange={(ev) => setStreetAddress(ev.target.value)}
+                  />
                 <CityHolder>
                   <Input
                     type="text"
@@ -223,13 +269,6 @@ function CartPage() {
                 </CityHolder>
                 <Input
                   type="text"
-                  placeholder="Calle"
-                  value={streetAddress}
-                  name="streetAddress"
-                  onChange={(ev) => setStreetAddress(ev.target.value)}
-                />
-                <Input
-                  type="text"
                   placeholder="Pais"
                   value={country}
                   name="country"
@@ -238,6 +277,16 @@ function CartPage() {
                 <Button $block={true} $black={true} onClick={goToPayment}>
                   Continuar pagando
                 </Button>
+            </Box>
+          )}
+          {!!cartProducts?.length && !isLogged && (
+            <Box>
+              <Mid>
+                <h2>Inicia sesion para pagar</h2>
+                <Button $block={true} $primary={true} onClick={goToLogin}>
+                    Iniciar sesion
+                </Button>
+              </Mid>
             </Box>
           )}
         </ColumnsWrapper>

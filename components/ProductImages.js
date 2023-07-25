@@ -21,7 +21,7 @@ const ImageButtons = styled.div`
 const ImageButton = styled.div`
   border: 2px solid #ccc;
   ${(props) =>
-    props.active
+    props.$active
       ? `
         border-color: #ccc;
     ` : `
@@ -42,13 +42,13 @@ function ProductImages({ images }) {
   return (
     <>
       <BigImageWrapper>
-        <BigImage src={activeImage} alt="" />
+        <BigImage src={activeImage} alt="Imagen" />
       </BigImageWrapper>
       <ImageButtons>
         {images.map((image) => (
           <ImageButton
             key={image}
-            active={image === activeImage}
+            $active={image === activeImage}
             onClick={() => setActiveImage(image)}
           >
             <Image src={image} alt="Imagen de Producto" />

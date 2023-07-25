@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import {CartContextProvider} from "@/components/CartContext";
+import NoSsr from "@/components/NoSsr";
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -13,10 +14,12 @@ const GlobalStyles = createGlobalStyle`
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <CartContextProvider>
-        <GlobalStyles/>
-        <Component {...pageProps} />
-      </CartContextProvider>
+      <NoSsr>
+        <CartContextProvider>
+          <GlobalStyles/>
+          <Component {...pageProps} />
+        </CartContextProvider>
+      </NoSsr>
     </>
   )
 }

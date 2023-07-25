@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { styled } from "styled-components"
 import Center from "./Center";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "./CartContext";
 import BarsIcon from "./icons/Bars";
+import { isAuthenticated } from "@/lib/auth";
 
 const SyledHeader = styled.header`
     background-color:#444;
@@ -48,6 +49,21 @@ const NavLink = styled(Link)`
     }
 `
 
+const ButtonNav = styled.button`
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    color:#888;
+    padding: 10px 0;
+    @media screen and (min-width: 768px) {
+        padding: 0;
+        padding-left: 30px;
+    }
+`
+
 const NavButton = styled.button`
     background-color: transparent;
     width: 40px;
@@ -62,8 +78,23 @@ const NavButton = styled.button`
 `
 
 function Header() {
+    const [isLogged, setIsLogged] = useState(false);
     const {cartProducts} = useContext(CartContext)
     const [navActive, setNavActive] = useState(false)
+
+    useEffect(() => {
+        setIsLogged(isAuthenticated());
+      }, []);
+
+      const clearAuthToken = () => {
+        localStorage.removeItem('token');
+      }; 
+      
+      const handleLogout = () => {
+        clearAuthToken();
+
+        window.location.href = '/';
+      };
 
   return (
     <SyledHeader>
@@ -76,6 +107,9 @@ function Header() {
                     <NavLink href={'/categories'}>Categorias</NavLink>
                     <NavLink href={'/account'}>Perfil</NavLink>
                     <NavLink href={'/cart'}>Carrito ({cartProducts.length})</NavLink>
+                    {isLogged && (
+                        <ButtonNav onClick={handleLogout}>Cerrar Session</ButtonNav>
+                    )}
                 </StyledNav>
                 <NavButton onClick={() => setNavActive(prev => !prev)}>
                     <BarsIcon/>

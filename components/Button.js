@@ -41,14 +41,14 @@ export const ButtonStyle = css`
     color: ${primary};
     border: 1px solid  ${primary};
   `}
-  ${props => props.size === 'l' && css`
+  ${props => props.$size === 'l' && css`
       text-size: 1.2rem;
       padding: 10px 20px;
       svg {
         height: 20px;
       }
   `}
-  ${props => props.block && css`
+  ${props => props.$block && css`
       display:blox;
       width: 100%;
       justify-content: center;
