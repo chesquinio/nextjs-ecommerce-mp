@@ -73,7 +73,7 @@ export default async function handle(req, res) {
     const result = await mercadopago.preferences.create({
       items: line_items,
       notification_url:
-        "https://bb40-152-171-16-186.ngrok-free.app/api/webhook",
+        "https://nextjs-ecommerce-mp-2qdk.vercel.app/api/webhook",
       metadata: { orderId: orderDoc._id.toString() },
       back_urls: {
         success: `${process.env.HOST}/cart?success=1`,
