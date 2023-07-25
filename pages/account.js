@@ -158,10 +158,10 @@ function Perfil() {
                 <span>Direccion</span>
               </Div>
               {userOrders.map((userOrder) => (
-                <DivItem>
+                <DivItem key={userOrder._id}>
                   <div>
-                    {userOrder.line_items.map((lineItem) => (
-                      <DivProductItem>
+                    {userOrder.line_items.map((lineItem, indexItem) => (
+                      <DivProductItem key={indexItem}>
                         <span>
                           {lineItem.title} x {lineItem.quantity}
                         </span>
