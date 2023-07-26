@@ -34,7 +34,7 @@ function CategoriesPage() {
       <Header />
       <Center>
         {categoriesWithProducts.map((category) => (
-          <div>
+          <div key={category._id}>
             <Title>{category.name}</Title>
             <CategoryLink href={`/categories/${category.name}`}>mostrar mas...</CategoryLink>
             <ProductsGrid products={category.products} showButton={true} category={category}/>
