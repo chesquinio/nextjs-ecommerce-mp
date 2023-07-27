@@ -83,7 +83,7 @@ function Featured({product}) {
                     </div>
                 </Column>
                 <Column>
-                    <Image src="https://nextjs-ecommerce-mp.s3.amazonaws.com/1689358146998.png" alt="Imagen Principal" />
+                    <Image src={product.images[0]} alt="Imagen Principal" />
                 </Column>
             </ColumnsWrapper>
         </Center>
